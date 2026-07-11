@@ -94,3 +94,52 @@ body {
     border-radius: 6px;
     font-size: 18px;
 }
+/* Meet The Speakers */
+.speakers-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 80px;
+    margin-bottom: 100px;
+}
+
+.speakers-container h1 {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.speakers-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.speaker-card img {
+    border-radius: 10px 10px 0 0;
+    display: block;
+    width: 100%;
+}
+
+.speaker-info {
+    border-left: 1px solid #E5E7EB;
+    border-right: 1px solid #E5E7EB;
+    border-bottom: 1px solid #E5E7EB;
+    padding: 20px;
+    border-radius: 0 0 10px 10px;
+}
+
+.speaker-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #2563EB;
+    margin-bottom: 6px;
+
+}
+
+.speaker-title {
+    color: #575757;
+    font-size: 12px;
+    margin-top: 6px;
+}
