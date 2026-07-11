@@ -248,6 +248,543 @@ body {
     background-color: #2563EB;
     border: none;
 }
+ 
+/* ==========================================================================
+   FAQ Section — "support.sh"
+   Concept: a developer-conference FAQ styled after a terminal / diff view
+   instead of a generic centered accordion. Two-column layout, sticky intro,
+   animated conic-gradient toggle rings, and a diff-style accent bar on the
+   active card. Monospace is used sparingly (indices + terminal card only).
+   ========================================================================== */
+ 
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+ 
+@property --faq-angle {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+}
+ 
+.faq-container {
+    position: relative;
+    overflow: hidden;
+    background-color: #070B12;
+    padding: 130px 90px 90px 90px;
+}
+ 
+/* Faint blueprint grid, masked so it fades toward the edges */
+.faq-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 46px 46px;
+    -webkit-mask-image: radial-gradient(ellipse 65% 55% at 18% 8%, black 0%, transparent 75%);
+    mask-image: radial-gradient(ellipse 65% 55% at 18% 8%, black 0%, transparent 75%);
+    pointer-events: none;
+}
+ 
+/* Soft blue glow blob, top right — kept low-opacity and monochrome */
+.faq-container::after {
+    content: "";
+    position: absolute;
+    top: -160px;
+    right: -140px;
+    width: 520px;
+    height: 520px;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.22), transparent 70%);
+    filter: blur(80px);
+    pointer-events: none;
+}
+ 
+.faq-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 36px;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+ 
+/* ---------------- Left Column: Intro + Terminal Card ---------------- */
+ 
+.faq-intro {
+    position: sticky;
+    top: 60px;
+    align-self: start;
+}
+ 
+.faq-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    color: #60A5FA;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin-bottom: 18px;
+}
+ 
+.faq-heading {
+    color: #FFFFFF;
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1.14;
+    letter-spacing: -0.5px;
+}
+ 
+.faq-subtitle {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 15px;
+    line-height: 1.75;
+    max-width: 360px;
+    margin-top: 20px;
+    margin-bottom: 36px;
+}
+ 
+.faq-support-card {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.028);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+    max-width: 430px;
+}
+ 
+.terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 18px;
+    background: rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+ 
+.dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+}
+ 
+.dot-red {
+    background: #F87171;
+}
+ 
+.dot-yellow {
+    background: #FBBF24;
+}
+ 
+.dot-green {
+    background: #34D399;
+}
+ 
+.terminal-title {
+    margin-left: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+}
+ 
+.terminal-body {
+    padding: 20px 20px 18px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+}
+ 
+.terminal-body p {
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.9;
+}
+ 
+.prompt {
+    color: #60A5FA;
+    margin-right: 6px;
+}
+ 
+.terminal-output {
+    color: rgba(255, 255, 255, 0.45);
+    padding-left: 4px;
+}
+ 
+.terminal-output .accent {
+    color: #93C5FD;
+}
+ 
+.cursor {
+    display: inline-block;
+    width: 7px;
+    height: 13px;
+    background: #60A5FA;
+    margin-left: 6px;
+    vertical-align: middle;
+    animation: faqBlink 1.1s steps(1) infinite;
+}
+ 
+@keyframes faqBlink {
+ 
+    0%,
+    49% {
+        opacity: 1;
+    }
+ 
+    50%,
+    100% {
+        opacity: 0;
+    }
+}
+ 
+/* Richer footer row inside the support card: live status + response stat */
+.terminal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 15px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.015);
+}
+ 
+.terminal-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+}
+ 
+.status-dot {
+    position: relative;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #34D399;
+    flex-shrink: 0;
+}
+ 
+.status-dot::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: rgba(52, 211, 153, 0.35);
+    animation: faqPulse 2.4s ease-out infinite;
+}
+ 
+@keyframes faqPulse {
+    0% {
+        transform: scale(0.6);
+        opacity: 0.8;
+    }
+ 
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+}
+ 
+.terminal-stat {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.35);
+}
+ 
+.terminal-stat b {
+    color: rgba(255, 255, 255, 0.65);
+    font-weight: 500;
+}
+ 
+/* ---------------- Right Column: FAQ Cards ---------------- */
+ 
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+ 
+.faq-card {
+    position: relative;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.025);
+    backdrop-filter: blur(6px);
+    padding: 8px 30px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    transition: border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        background-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+ 
+.faq-card:hover {
+    border-color: rgba(96, 165, 250, 0.32);
+    background: rgba(255, 255, 255, 0.04);
+    transform: translateY(-3px);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 20px 40px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(96, 165, 250, 0.08);
+}
+ 
+.faq-card[open] {
+    border-color: rgba(96, 165, 250, 0.42);
+    background: rgba(37, 99, 235, 0.055);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 12px 30px rgba(0, 0, 0, 0.25);
+}
+ 
+/* Accent bar that reveals on the open card */
+.faq-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 16px;
+    bottom: 16px;
+    width: 3px;
+    border-radius: 3px;
+    background: linear-gradient(180deg, #60A5FA, #2563EB);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+ 
+.faq-card[open]::before {
+    transform: scaleY(1);
+}
+ 
+.faq-card-head {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 22px 0;
+    cursor: pointer;
+}
+ 
+.faq-card-head::-webkit-details-marker {
+    display: none;
+}
+ 
+.faq-index {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: rgba(96, 165, 250, 0.7);
+    flex-shrink: 0;
+}
+ 
+.faq-q-text {
+    flex: 1;
+    color: #FFFFFF;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+ 
+.faq-card-body {
+    padding: 0 0 24px 42px;
+    animation: faqReveal 0.3s ease;
+}
+ 
+.faq-card-body p {
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 14px;
+    line-height: 1.85;
+    max-width: 92%;
+}
+ 
+@keyframes faqReveal {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+ 
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+ 
+/* Large, animated plus/close toggle — pure CSS, no icon font */
+.faq-toggle {
+    position: relative;
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+ 
+.faq-card[open] .faq-toggle {
+    transform: rotate(45deg);
+}
+ 
+.faq-card:hover .faq-toggle {
+    transform: scale(1.06);
+}
+ 
+.faq-card[open]:hover .faq-toggle {
+    transform: rotate(45deg) scale(1.06);
+}
+ 
+.faq-toggle-ring {
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    background: conic-gradient(from var(--faq-angle), #1D4ED8, #93C5FD, #1D4ED8);
+    animation: faqSpin 7s linear infinite;
+    opacity: 0.4;
+    transition: opacity 0.35s ease;
+}
+ 
+.faq-card:hover .faq-toggle-ring {
+    opacity: 0.65;
+}
+ 
+.faq-card[open] .faq-toggle-ring {
+    opacity: 1;
+    animation-duration: 3.2s;
+}
+ 
+@keyframes faqSpin {
+    to {
+        --faq-angle: 360deg;
+    }
+}
+ 
+.faq-toggle-core {
+    position: absolute;
+    inset: 2px;
+    border-radius: 50%;
+    background: #0B121C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transition: background 0.35s ease, box-shadow 0.35s ease;
+}
+ 
+.faq-card[open] .faq-toggle-core {
+    background: #2563EB;
+    box-shadow: 0 0 18px rgba(37, 99, 235, 0.55);
+}
+ 
+.faq-toggle .line {
+    position: absolute;
+    background: #FFFFFF;
+    border-radius: 3px;
+}
+ 
+.faq-toggle .line-v {
+    width: 2px;
+    height: 16px;
+}
+ 
+.faq-toggle .line-h {
+    width: 16px;
+    height: 2px;
+}
+ 
+/* ---------------- Bottom glow divider — separates FAQ from footer ---------------- */
+ 
+.faq-divider {
+    position: relative;
+    height: 1px;
+    max-width: 1360px;
+    margin: 80px auto 0 auto;
+    background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.38), transparent);
+}
+ 
+.faq-divider::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 140px;
+    height: 60px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse, rgba(37, 99, 235, 0.4), transparent 70%);
+    filter: blur(22px);
+}
+ 
+/* Fade the section floor to near-black right above the footer for a clean seam */
+.faq-divider::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 1px;
+    width: 100vw;
+    height: 90px;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, transparent, #030507);
+    pointer-events: none;
+}
+ 
+/* ---------------- Responsive ---------------- */
+ 
+@media (max-width: 1000px) {
+    .faq-inner {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+ 
+    .faq-intro {
+        position: static;
+    }
+ 
+    .faq-heading {
+        font-size: 36px;
+    }
+ 
+    .faq-support-card {
+        max-width: 100%;
+    }
+}
+ 
+@media (max-width: 640px) {
+    .faq-container {
+        padding: 90px 22px 70px 22px;
+    }
+ 
+    .faq-heading {
+        font-size: 30px;
+    }
+ 
+    .faq-card {
+        padding: 4px 18px;
+    }
+ 
+    .faq-q-text {
+        font-size: 14px;
+    }
+ 
+    .faq-toggle {
+        width: 38px;
+        height: 38px;
+    }
+ 
+    .faq-toggle .line-v {
+        height: 14px;
+    }
+ 
+    .faq-toggle .line-h {
+        width: 14px;
+    }
+ 
+    .faq-card-body {
+        padding-left: 0;
+    }
+ 
+    .faq-card-body p {
+        max-width: 100%;
+    }
+ 
+    .faq-divider {
+        margin-top: 70px;
+    }
+}
+ 
+/* FAQ Section End
+   ========================================================================== */
+
 /* Footer Section Start */
 
 .footer-container{
