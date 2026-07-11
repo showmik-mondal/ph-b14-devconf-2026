@@ -1,0 +1,53 @@
+* {
+
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+/* Common Styles */
+body {
+    font-family: "Inter", sans-serif;
+}
+
+
+.btn-shared {
+    color: #FFFFFF;
+    background-color: #1D4ED8;
+    border: none;
+    font-weight: 600;
+    padding: 13px 40px;
+    border-radius: 10px;
+}
+
+
+/* Navbar Style Start */
+
+.logo img {
+    height: 40px;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 100px;
+}
+
+.menu {
+    display: flex;
+    list-style: none;
+    gap: 22px;
+}
+
+.menu a:hover {
+
+    color: #1D4ED8;
+
+}
+
+.menu a {
+    text-decoration: none;
+    color: #575757;
+}
